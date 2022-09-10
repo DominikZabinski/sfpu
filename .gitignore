@@ -1,6 +1,8 @@
 *
 !DESCRIPTION
 !NAMESPACE
+!README.md
+!README.rmd
 !R/
 !R/*.R
 !data-raw/
