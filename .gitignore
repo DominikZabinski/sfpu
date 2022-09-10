@@ -1,0 +1,13 @@
+*
+!DESCRIPTION
+!NAMESPACE
+!R/
+!R/*.R
+!data-raw/
+!data-raw/*.R
+!data/
+!data/*.rda
+!tests/
+!tests/testthat.R
+!tests/testthat/
+!tests/testthat/*.R
