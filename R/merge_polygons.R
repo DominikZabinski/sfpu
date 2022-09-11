@@ -17,11 +17,11 @@
 merge_polygons <- function(orPol, uklad, clusterName = "klaster", polysId = "id", geometryName = "g")
 {
     # checking classes of arguments
-    check_class( object = orPol,        classNeeded = "sf"         )
-    check_class( object = uklad,        classNeeded = "data.table" )
-    check_class( object = clusterName,  classNeeded = "character"  )
-    check_class( object = polysId,      classNeeded = "character"  )
-    check_class( object = geometryName, classNeeded = "character"  )
+    check_class( object = orPol,        needed = "sf"         )
+    check_class( object = uklad,        needed = "data.table" )
+    check_class( object = clusterName,  needed = "character"  )
+    check_class( object = polysId,      needed = "character"  )
+    check_class( object = geometryName, needed = "character"  )
 
     # checking if 'clusterName' and 'polysId' are in 'uklad'
     if ( !clusterName %in% names(uklad) ) stop(sprintf("'%s' not in 'uklad'", clusterName))
