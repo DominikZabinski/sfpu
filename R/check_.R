@@ -15,7 +15,7 @@
 #' @examples
 #' check_class("abba", "character")
 #' check_class(c(1:3), "integer")
-#' check_value(c(1:5), c(-6:6))
+#' check_value(c(1:5), list(range = c(-6, 6)))
 check_class <- function(object, needed)
 {
     classes <- class(object)

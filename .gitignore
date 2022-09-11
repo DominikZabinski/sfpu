@@ -5,6 +5,8 @@
 !README.rmd
 !R/
 !R/*.R
+!man/
+!man/*.Rd
 !data-raw/
 !data-raw/*.R
 !data/

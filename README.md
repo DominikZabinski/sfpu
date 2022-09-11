@@ -4,6 +4,10 @@
 # sfpu (Stuff For Personal Usage)
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/DominikZabinski/sfpu/actions/workflows/check-release.yaml/badge.svg)](https://github.com/DominikZabinski/sfpu/actions/workflows/check-release.yaml)
+
+[![test-coverage](https://github.com/DominikZabinski/sfpu/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/DominikZabinski/sfpu/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
 ## Overview
