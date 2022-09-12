@@ -7,17 +7,17 @@
 vis_paths(path, end)
 }
 \arguments{
-\item{path}{reuslt of short_paths()}
+\item{path}{a result of \code{sfpu::short_paths}}
 
-\item{end}{id of ending polygon}
+\item{end}{an id of ending polygon}
 }
 \value{
-ggplot2 object with visualization of path
+ggplot2 object with visualization of a path
 }
 \description{
 Visualizes shortest path
 }
 \examples{
-oj <- short_paths(start = '12', g = table_dists('wojewodztwa'))
-vis_paths(path = oj, end = "32")
+shortest_paths_from_12_void <- short_paths(start = '12', g = table_dists('wojewodztwa'))
+vis_paths(path = shortest_paths_from_12_void, end = "32")
 }

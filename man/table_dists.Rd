@@ -2,20 +2,23 @@
 % Please edit documentation in R/djikstra.R
 \name{table_dists}
 \alias{table_dists}
-\title{Creates data.table of distances between neighbouring centroids}
+\title{Creates data.table of distances between centroids of polygons}
 \usage{
 table_dists(lvl, neighs = sfpu::neigh_list[[lvl]])
 }
 \arguments{
-\item{lvl}{lvl (wojewodztwa, powiaty, gminy)}
+\item{lvl}{lvl (one of 'wojewodztwa', 'powiaty' or 'gminy')}
 
-\item{neighs}{data.table of neighbours}
+\item{neighs}{data.table containing pairs ids of polygons (default: adjacent polygons of level \code{lvl})}
 }
 \value{
-
+data.table with columns 'ID_TER', 'ID_NEIGH' and 'odl' (euclidean distance between centroids of polygons in 'ID_TER' and 'ID_NEIGH')
 }
 \description{
-Creates data.table of distances between neighbouring centroids
+Creates data.table of distances between centroids of polygons
+}
+\details{
+\code{neighs} must have columns 'ID_TER' and 'ID_NEIGH'
 }
 \examples{
 table_dists("wojewodztwa")

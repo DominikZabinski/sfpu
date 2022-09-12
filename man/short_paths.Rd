@@ -2,20 +2,23 @@
 % Please edit documentation in R/djikstra.R
 \name{short_paths}
 \alias{short_paths}
-\title{Calculates shortest paths from start to every othe point in given graph}
+\title{Calculates shortest paths from start to every other point in given graph}
 \usage{
 short_paths(start, g)
 }
 \arguments{
 \item{start}{id}
 
-\item{g}{data.table with ID_TER, ID_NEIGH and odl}
+\item{g}{data.table with columns 'ID_TER', 'ID_NEIGH' and 'odl'}
 }
 \value{
-data.table with columns: 'a' id of polys, 'odl' (dist from start) and 'b' (path from start to end, excludin starting point)
+data.table with columns: 'a' id of polys, 'odl' (dist from start in meters) and 'b' (ids of polygon in exact order that constructs shortest path from \code{start} to \code{a}, excluding starting point, in the form of id1 - id2 - ... - idN)
 }
 \description{
-g might be a product of table_dists
+\code{g} might be a product of table_dists
+}
+\details{
+Calculating shortest path is based on Djikstra algorithm
 }
 \examples{
 short_paths(start = '02', g = table_dists('wojewodztwa'))
