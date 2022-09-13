@@ -111,7 +111,7 @@ short_paths <- function(start, g)
 #' @export
 #'
 #' @importFrom data.table rbindlist data.table
-#' @importFrom ggplot2  ggplot geom_sf geom_segment geom_point labs aes
+#' @importFrom ggplot2 aes geom_point geom_segment geom_sf ggplot labs theme_void
 #'
 #' @examples
 #' distances_between_voids <- table_dists('wojewodztwa')
@@ -166,8 +166,8 @@ vis_paths <- function(path, end)
         x <- y <- id <- NULL
 
     ggplot() +
-        geom_sf(data = needed_shapes, fill = 'white', color = 'black') +
-        geom_segment(data = whole_path_segment, mapping = aes(x = xs, y = ys, xend = xe, yend = ye, group = id), color = "red") +
+        geom_sf(data = needed_shapes, fill = 'white', color = 'grey70', size = 1 / nchar(startingId)) +
+        geom_segment(data = whole_path_segment, mapping = aes(x = xs, y = ys, xend = xe, yend = ye, group = id), color = "red", size = 1) +
         geom_point(data = needed_centroids[id %in% c(startingId, end)], mapping = aes(x = x, y = y), size = 4, color = "orange") +
         labs(
             title = sprintf(
@@ -176,5 +176,6 @@ vis_paths <- function(path, end)
                 needed_shapes[needed_shapes$JPT_KOD_JE == end, ]$JPT_NAZWA_, end,
                 round(path[path$a == end]$odl / 1e3, 0)
             )
-        )
+        ) +
+        theme_void()
 }
