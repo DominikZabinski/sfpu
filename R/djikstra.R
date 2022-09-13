@@ -1,14 +1,14 @@
-#' Creates data.table of distances between centroids of polygons
+#' @title Calculating distances between adjacent centroids
+#'
+#' @description Creates data.table of distances between centroids of polygons
 #'
 #' @param lvl lvl (one of 'wojewodztwa', 'powiaty' or 'gminy')
 #' @param neighs data.table containing pairs ids of polygons (default: adjacent polygons of level \code{lvl})
 #'
-#' @return data.table with columns 'ID_TER', 'ID_NEIGH' and 'odl' (euclidean distance between centroids of polygons in 'ID_TER' and 'ID_NEIGH')
-#' @export
-#'
 #' @details \code{neighs} must have columns 'ID_TER' and 'ID_NEIGH'
 #'
-#' @import data.table
+#' @return data.table with columns 'ID_TER', 'ID_NEIGH' and 'odl' (euclidean distance between centroids of polygons in 'ID_TER' and 'ID_NEIGH')
+#' @export
 #'
 #' @examples
 #' table_dists("wojewodztwa")
@@ -33,20 +33,20 @@ table_dists <- function(lvl, neighs = sfpu::neigh_list[[lvl]])
     return(subset(this_odl, select = c("ID_TER", "ID_NEIGH", "odl")))
 }
 
-#' Calculates shortest paths from start to every other point in given graph
+#' @title Calculating shortest path is based on Djikstra algorithm
 #'
-#' @param start id
+#' @description Calculates shortest paths from start to every other point in given graph using Djikstra algorithm
+#'
+#' @param start id of a polygon that is a start
 #' @param g data.table with columns 'ID_TER', 'ID_NEIGH' and 'odl'
 #'
-#' @return data.table with columns: 'a' id of polys, 'odl' (dist from start in meters) and 'b' (ids of polygon in exact order that constructs shortest path from \code{start} to \code{a}, excluding starting point, in the form of id1 - id2 - ... - idN)
+#' @return data.table with columns: 'a' id of polygons, 'odl' (dist from start in meters) and 'b' (ids of polygon in exact order that constructs shortest path from \code{start} to \code{a}, excluding starting point, in the form of id1 - id2 - ... - idN)
 #'
-#' @description \code{g} might be a product of table_dists
-#'
-#' @details Calculating shortest path is based on Djikstra algorithm
-#'
-#' @import data.table
+#' @details it is recommended that \code{g} be a product of \code{table_dists()}
 #'
 #' @export
+#'
+#' @importFrom data.table rbindlist data.table
 #'
 #' @examples
 #' short_paths(start = '02', g = table_dists('wojewodztwa'))
@@ -101,6 +101,8 @@ short_paths <- function(start, g)
 
 #' Visualizes shortest path
 #'
+#' @description Visualizes shortest path based on \code{path}s previously calculated
+#'
 #' @param path a result of \code{sfpu::short_paths}
 #' @param end an id of ending polygon
 #'
@@ -108,10 +110,12 @@ short_paths <- function(start, g)
 #'
 #' @export
 #'
-#' @import ggplot2 data.table
+#' @importFrom data.table rbindlist data.table
+#' @importFrom ggplot2  ggplot geom_sf geom_segment geom_point labs aes
 #'
 #' @examples
-#' shortest_paths_from_12_void <- short_paths(start = '12', g = table_dists('wojewodztwa'))
+#' distances_between_voids <- table_dists('wojewodztwa')
+#' shortest_paths_from_12_void <- short_paths(start = '12', g = distances_between_voids)
 #' vis_paths(path = shortest_paths_from_12_void, end = "32")
 vis_paths <- function(path, end)
 {
@@ -155,7 +159,11 @@ vis_paths <- function(path, end)
         )
     )
 
-    whole_path_segment[, id := 1:nrow(whole_path_segment)]
+    whole_path_segment$id <- 1:nrow(whole_path_segment)
+
+    # to avoid 'no visible binding for global variable' note in devtools::check()
+    xs <- ys <- xe <- ye <-
+        x <- y <- id <- NULL
 
     ggplot() +
         geom_sf(data = needed_shapes, fill = 'white', color = 'black') +

@@ -15,9 +15,10 @@ vis_paths(path, end)
 ggplot2 object with visualization of a path
 }
 \description{
-Visualizes shortest path
+Visualizes shortest path based on \code{path}s previously calculated
 }
 \examples{
-shortest_paths_from_12_void <- short_paths(start = '12', g = table_dists('wojewodztwa'))
+distances_between_voids <- table_dists('wojewodztwa')
+shortest_paths_from_12_void <- short_paths(start = '12', g = distances_between_voids)
 vis_paths(path = shortest_paths_from_12_void, end = "32")
 }

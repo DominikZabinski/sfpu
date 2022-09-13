@@ -2,7 +2,7 @@
 % Please edit documentation in R/djikstra.R
 \name{table_dists}
 \alias{table_dists}
-\title{Creates data.table of distances between centroids of polygons}
+\title{Calculating distances between adjacent centroids}
 \usage{
 table_dists(lvl, neighs = sfpu::neigh_list[[lvl]])
 }
