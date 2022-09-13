@@ -11,7 +11,9 @@
 #' shp_centroids(sfpu::shapes_wojewodztwa)
 shp_centroids <- function(shp)
 {
-    this_cents <- st_centroid(shp)
+    # using suppressWarnings() because, for now, do not know how to suppress this warning from st_centroid:
+    #   st_centroid assumes attributes are constant over geometries of x
+    suppressWarnings(expr = {this_cents <- st_centroid(shp)})
     res <- rbindlist(
         l = lapply(
             X = 1:nrow(this_cents),

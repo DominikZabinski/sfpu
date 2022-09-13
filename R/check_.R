@@ -31,8 +31,8 @@ check_value <- function(object, needed)
 {
     check_class(object = needed, needed = "list")
     methodCheck <- names(needed)
-    if (methodCheck == "value") if (!all(object) %in% needed[[1]]) stop("Some of the values are outside needed range")
-    if (methodCheck == "regex") if (any(regexpr(pattern = needed[[1]], text = object) < 0)) stop("Some of the values are outside needed regex")
-    if (methodCheck == "range") if (any(object < min(needed[[1]])) | any(object > max(needed[[1]]))) stop("Some of the values are outside needed range")
+    if (methodCheck == "value") if (!all(object %in% needed$value)) stop("Some of the values are outside needed range")
+    if (methodCheck == "regex") if (any(regexpr(pattern = needed$regex, text = object) < 0)) stop("Some of the values are outside needed regex")
+    if (methodCheck == "range") if (any(object < min(needed$range)) | any(object > max(needed$range))) stop("Some of the values are outside needed range")
     return(invisible(NULL))
 }
