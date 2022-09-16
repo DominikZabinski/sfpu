@@ -1,8 +1,12 @@
 *
 !DESCRIPTION
 !NAMESPACE
+!.Rbuildignore
+!LICENSE
+!LICENSE.md
 !README.md
 !README.rmd
+!NEWS.md
 !R/
 !R/*.R
 !man/
