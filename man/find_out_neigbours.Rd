@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_out_neigbours.R
 \name{find_out_neigbours}
 \alias{find_out_neigbours}
-\title{Finding out neighbouring polygons}
+\title{Finding out adjacent polygons}
 \usage{
 find_out_neigbours(poly, kol, idName = "co", neighName = "s")
 }
@@ -16,12 +16,11 @@ find_out_neigbours(poly, kol, idName = "co", neighName = "s")
 \item{neighName}{name of column with neighbours id}
 }
 \value{
-
+data.table with columns containing original id of polygons and ids of adjacent polygons. Names of columns are based on argument \code{idName} and \code{neighname} respectively
 }
 \description{
-Finding out neighbouring polygons
+Functions finds out polygons which are adjacent to each other (using sf::st_intersects)
 }
 \examples{
 find_out_neigbours(poly = shapes_wojewodztwa, kol = "JPT_KOD_JE")
-
 }
