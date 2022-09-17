@@ -1,19 +1,24 @@
-#' Merging polygons
+#' @title Merging polygons
 #'
-#' @param orPol oryginalny shape
-#' @param uklad data.table o kolumnie 'id' (ktora ma odpowiadac 'JPT_KOD_JE') i klaster czyli id klastra
-#' @param clusterName column name in uklad that corresponds to cluster id
-#' @param polysId column name in uklad that corresponds to polygon id
+#' @param orPol shapefile with needed geometry
+#' @param uklad data.table with a column with polygons 'id' (which has to correspond to 'JPT_KOD_JE' in shapefiles) and cluster id
+#' @param clusterName column name in \code{uklad} that corresponds to cluster id
+#' @param polysId column name in \code{uklad} that corresponds to polygon id
 #' @param geometryName column name with geometry
 #'
-#' @return sf object?
+#' @details for each cluster there is a one cluster id. for each cluster id there are >=1 id of a polygon
+#' to do: if a cluster has only one polygon, there is no need to merge
+#'
+#' @return sf object with columns containing cluster name (provided via \code{clusterName}) and new geometry of a cluster (with a name provided via \code{geometryName})
+#'
 #' @export
-#' @details zamysl jest taki, ze dla jednego klastra jest jedno id klastra. dla jednego id klastra jest wiele id powiatow. dla jednego id klastra
-#' @examples
-#' merge_polygons(shapes_wojewodztwa, data.table(id = c('02', '16'), klaster = "1"))
+#'
 #' @importFrom sf st_as_sf st_make_valid st_union st_sf
-#' @importFrom magrittr '%>%'
 #' @importFrom data.table .N
+#'
+#' @examples
+#' res <- merge_polygons(shapes_wojewodztwa, data.table(id = c('02', '16'), klaster = "1"))
+#' ggplot2::ggplot(res) + ggplot2::geom_sf()
 merge_polygons <- function(orPol, uklad, clusterName = "klaster", polysId = "id", geometryName = "g")
 {
     # checking classes of arguments
@@ -24,15 +29,16 @@ merge_polygons <- function(orPol, uklad, clusterName = "klaster", polysId = "id"
     check_class( object = geometryName, needed = "character"  )
 
     # checking if 'clusterName' and 'polysId' are in 'uklad'
-    if ( !clusterName %in% names(uklad) ) stop(sprintf("'%s' not in 'uklad'", clusterName))
-    if ( !polysId     %in% names(uklad) ) stop(sprintf("'%s' not in 'uklad'", polysId))
+    check_value(object = clusterName, needed = list("value" = names(uklad)))
+    check_value(object = polysId, needed = list("value" = names(uklad)))
 
     # checking if any of polysId is in orPol
-    if ( !any( uklad[[polysId]] %in% orPol$JPT_KOD_JE) ) stop("None of the polys id values is in orPol")
+    check_value(object = uklad[[polysId]], needed = list("value" = orPol$JPT_KOD_JE))
 
-    # checking if all polysId are assginde to only one cluster
+    # checking if all polysId are assigned to only one cluster
     uklad <- subset( x = uklad, select = c(clusterName, polysId) ) %>% unique()
-    checkPolys <- uklad[,list(.N), by = polysId][N > 1]
+    checkPolys <- uklad[,list(.N), by = polysId]
+    checkPolys <- checkPolys[checkPolys$N > 1]
     if ( nrow( checkPolys ) > 0 ) stop(sprintf("Some polysId are in more than one cluster (e.g. '%s')", checkPolys[[polysId]][1]))
 
     l = lapply(
@@ -54,5 +60,3 @@ merge_polygons <- function(orPol, uklad, clusterName = "klaster", polysId = "id"
     names(res) <- c(clusterName, geometryName)
     return(res)
 }
-
-# to do: if a cluster has only one polygon, there is no need to merge

@@ -13,25 +13,27 @@ merge_polygons(
 )
 }
 \arguments{
-\item{orPol}{oryginalny shape}
+\item{orPol}{shapefile with needed geometry}
 
-\item{uklad}{data.table o kolumnie 'id' (ktora ma odpowiadac 'JPT_KOD_JE') i klaster czyli id klastra}
+\item{uklad}{data.table with a column with polygons 'id' (which has to correspond to 'JPT_KOD_JE' in shapefiles) and cluster id}
 
-\item{clusterName}{column name in uklad that corresponds to cluster id}
+\item{clusterName}{column name in \code{uklad} that corresponds to cluster id}
 
-\item{polysId}{column name in uklad that corresponds to polygon id}
+\item{polysId}{column name in \code{uklad} that corresponds to polygon id}
 
 \item{geometryName}{column name with geometry}
 }
 \value{
-sf object?
+sf object with columns containing cluster name (provided via \code{clusterName}) and new geometry of a cluster (with a name provided via \code{geometryName})
 }
 \description{
 Merging polygons
 }
 \details{
-zamysl jest taki, ze dla jednego klastra jest jedno id klastra. dla jednego id klastra jest wiele id powiatow. dla jednego id klastra
+for each cluster there is a one cluster id. for each cluster id there are >=1 id of a polygon
+to do: if a cluster has only one polygon, there is no need to merge
 }
 \examples{
-merge_polygons(shapes_wojewodztwa, data.table(id = c('02', '16'), klaster = "1"))
+res <- merge_polygons(shapes_wojewodztwa, data.table(id = c('02', '16'), klaster = "1"))
+ggplot2::ggplot(res) + ggplot2::geom_sf()
 }

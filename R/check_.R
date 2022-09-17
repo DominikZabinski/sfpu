@@ -12,6 +12,8 @@
 #' \code{check_values} checking for specific values. In that case \code{needed} is a named list. Name of list indicates method of comparison (values, regex, range)
 #' @export
 #'
+#' @importFrom stringr str_interp
+#'
 #' @examples
 #' check_class("abba", "character")
 #' check_class(c(1:3), "integer")
@@ -20,7 +22,7 @@ check_class <- function(object, needed)
 {
     classes <- class(object)
     if (!any(classes %in% needed))
-        stop(sprintf("Needed: %s, actual: %s", paste0(needed, collapse = ", "), paste0(classes, collapse = ", ")))
+        stop(str_interp(string = "Needed: ${n}, actual: ${a}", list(n = paste0(needed, collapse = ", "), a = paste0(classes, collapse = ", "))))
     return(invisible(NULL))
 }
 
