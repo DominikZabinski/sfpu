@@ -19,7 +19,6 @@
 !tests/testthat.R
 !tests/testthat/
 !tests/testthat/*.R
-.Rproj.user
 !.github/
 !.github/workflows/
 !.github/workflows/*.yaml
